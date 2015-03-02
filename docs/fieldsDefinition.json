@@ -1,0 +1,42 @@
+//Document structure
+cat_Documents:[{
+	id:0,												//ID for each kind of document
+	document:'PedimentoUno',							//Document name
+	fields:[
+	{
+		id:0,											//ID for each field
+		fieldName: 'aField',							//Field name
+		top: 10,										//Position for OCR read
+		left: 10,										//Position for OCR read
+		width:100,										//Size for OCR read
+		height:100,										//Size for OCR read
+		validationRules:[								//Validations to apply to this field
+			{
+				validationFunction:'isDateField',		//Name from Validations' Catalog
+				format: 'dd/mm/yyy'						//Format to be passed as parameter in Validation's Function
+			},
+			//{}....n //some validations per field
+		]
+	},
+	//{}....n //some fields per document
+	]
+	},
+	//{}....n //some documents like Invoices, Pedimentos, etc.
+]
+
+//Catalog for Validation Functions
+cat_Validations:[
+	{
+		id:0,
+		isDateField:function(theDate, theFormat){}
+	},
+	{
+		id:1,
+		isNumericField: function(theNumber, theFormat){}
+	},
+	{
+		id:2,
+		isRegexField: function(theString, theFormat){}		
+	},
+	//{}....n //and all kind of validations here
+]
