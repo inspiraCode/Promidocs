@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+	<Properties>
+		<Property name="log-path">../logs</Property>
+	</Properties>
+	<Appenders>
+
+	<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+	</Console>
+
+	<RollingFile append="false" name="RollingFile1" fileName="${log-path}/promidocs.log" filePattern="${log-path}/promidocs-%d{yyyy-MM-dd}-%i.log">
+		<PatternLayout>
+			<pattern>%d %p [%t] %m%n</pattern>
+		</PatternLayout>
+		<Policies>
+			<OnStartupTriggeringPolicy />
+			<SizeBasedTriggeringPolicy size="10 MB" />
+			<TimeBasedTriggeringPolicy interval="24" modulate="true"/>
+		</Policies>
+	</RollingFile>
+
+	</Appenders>
+
+	<Loggers>
+		<Root level="trace">
+			<AppenderRef ref="RollingFile1" level="DEBUG"/>
+			<AppenderRef ref="Console" level="WARN"/>
+		</Root>
+	</Loggers>
+</Configuration>
