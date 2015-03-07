@@ -8,5 +8,6 @@
   <description>procesos de minado de documentos</description>
   <modules>
   	<module>launcher</module>
+  	<module>launcherTracker</module>
   </modules>
 </project>
