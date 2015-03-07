@@ -6,7 +6,23 @@
   <packaging>pom</packaging>
   <name>promidocs</name>
   <description>procesos de minado de documentos</description>
+  <properties>
+    <log4j.version>2.1</log4j.version>
+  </properties>
   <modules>
   	<module>launcher</module>
+  	<module>promidocsLogger</module>
   </modules>
+  <dependencies>
+  	<dependency>
+  		<groupId>org.apache.logging.log4j</groupId>
+  		<artifactId>log4j-api</artifactId>
+  		<version>2.1</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.logging.log4j</groupId>
+  		<artifactId>log4j-core</artifactId>
+  		<version>2.1</version>
+  	</dependency>
+  </dependencies>
 </project>
