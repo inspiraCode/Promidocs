@@ -5,13 +5,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionManager {
-	private String databaseName = "launcherTrackerDB";
-	private String user = "admin";
-	private String password = "password";
+	private static String databaseName = "/launcherTrackerDB/launcherTrackerDB";
+	private static String user = "admin";
+	private static String password = "password";
 
-	private Connection conn;
+	private static Connection conn;
 
-	public Connection getConnection() throws SQLException,
+	public static Connection getConnection() throws SQLException,
 			ClassNotFoundException {
 		if (conn == null)
 			Class.forName("org.hsqldb.jdbcDriver");
