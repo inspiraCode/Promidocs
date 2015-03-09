@@ -48,7 +48,7 @@ public class TrackerDAO {
 		}
 		return result;
 	}
-	
+
 	public Tracker read(String sFileName, Connection conn) {
 		ErrorThrown = false;
 		Tracker result = null;
@@ -61,7 +61,7 @@ public class TrackerDAO {
 			pstmt = conn.prepareStatement(sQuery);
 			pstmt.setString(1, sFileName.trim());
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				Tracker tracker = new Tracker();
 				tracker.setId(rs.getLong(1));
@@ -156,8 +156,10 @@ public class TrackerDAO {
 				ErrorMessage = "Error when attempting to create Tracker's record.";
 				return null;
 			}
-			/*st.getGeneratedKeys().next();
-			tracker.setId(st.getGeneratedKeys().getLong(1));*/
+			/*
+			 * st.getGeneratedKeys().next();
+			 * tracker.setId(st.getGeneratedKeys().getLong(1));
+			 */
 		} catch (SQLException e) {
 			e.printStackTrace();
 			ErrorThrown = true;
