@@ -1,0 +1,239 @@
+/**
+ * THIS IS A COMMERCIAL PROGRAM PROVIDED FOR INSPIRACODE AND IT'S ASSOCIATES
+ * BUILT BY EXTERNAL SOFTWARE PROVIDERS.
+ * THE SOFTWARE COMPRISING THIS SYSTEM IS THE PROPERTY OF INSPIRACODE OR ITS
+ * LICENSORS.
+ *
+ * ALL COPYRIGHT, PATENT, TRADE SECRET, AND OTHER INTELLECTUAL PROPERTY RIGHTS
+ * IN THE SOFTWARE COMPRISING THIS SYSTEM ARE, AND SHALL REMAIN, THE VALUABLE
+ * PROPERTY OF INSPIRACODE OR ITS LICENSORS.
+ *
+ * USE, DISCLOSURE, OR REPRODUCTION OF THIS SOFTWARE IS STRICTLY PROHIBITED,
+ * EXCEPT UNDER WRITTEN LICENSE FROM INSPIRACODE OR ITS LICENSORS.
+ *
+ * &copy; COPYRIGHT 2015 INSPIRACODE. ALL RIGHTS RESERVED.
+ */
+package com.inspiracode.launcher.ssh;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
+
+import com.inspiracode.launcher.util.RelativePath;
+
+/**
+ * Handle directory operations
+ * 
+ * <B>Revision History:</B>
+ * 
+ * <PRE>
+ * ====================================================================================
+ * Date-------- By---------------- Description
+ * ------------ --------------------------- -------------------------------------------
+ * 08/03/2015 - torredie - Initial Version.
+ * ====================================================================================
+ * </PRE>
+ * 
+ * 
+ * @author torredie
+ * 
+ */
+public class Directory {
+
+	private File directory;
+	private Set<Directory> childDirectories;
+	private ArrayList<File> files;
+	private Directory parent;
+
+	/**
+	 * Constructor for a Directory.
+	 * 
+	 * @param directory
+	 *            a directory.
+	 */
+	public Directory(File directory) {
+		this(directory, null);
+	}
+
+	/**
+	 * Constructor for a Directory.
+	 * 
+	 * @param directory
+	 *            a directory
+	 * @param parent
+	 *            a parent Directory
+	 */
+	public Directory(File directory, Directory parent) {
+		this.parent = parent;
+		this.childDirectories = new LinkedHashSet<Directory>();
+		this.files = new ArrayList<File>();
+		this.directory = directory;
+	}
+
+	/**
+	 * Add a directory to the child directories.
+	 * 
+	 * @param directory
+	 *            a Directory
+	 */
+	public void addDirectory(Directory directory) {
+		if (!childDirectories.contains(directory)) {
+			childDirectories.add(directory);
+		}
+	}
+
+	/**
+	 * Add a file to the list of files.
+	 * 
+	 * @param file
+	 *            a file to add
+	 */
+	public void addFile(File file) {
+		files.add(file);
+	}
+
+	/**
+	 * Get an iterator over the child Directories.
+	 * 
+	 * @return an iterator
+	 */
+	public Iterator<Directory> directoryIterator() {
+		return childDirectories.iterator();
+	}
+
+	/**
+	 * Get an iterator over the files.
+	 * 
+	 * @return an iterator
+	 */
+	public Iterator<File> filesIterator() {
+		return files.iterator();
+	}
+
+	/**
+	 * Get the parent Directory.
+	 * 
+	 * @return the parent Directory.
+	 */
+	public Directory getParent() {
+		return parent;
+	}
+
+	/**
+	 * Is this a root Directory?
+	 * 
+	 * @return true if there is no parent Directory
+	 */
+	public boolean isRoot() {
+		return parent == null;
+	}
+
+	/**
+	 * Get the directory file.
+	 * 
+	 * @return the directory file
+	 */
+	public File getDirectory() {
+		return directory;
+	}
+
+	/**
+	 * Get a child directory of this directory.
+	 * 
+	 * @param dir
+	 *            the directory to look for
+	 * @return the child directory, or null if not found
+	 */
+	public Directory getChild(File dir) {
+		for (Iterator<Directory> i = childDirectories.iterator(); i.hasNext();) {
+			Directory current = i.next();
+			if (current.getDirectory().equals(dir)) {
+				return current;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * The equality method. This checks if the directory field is the same.
+	 * 
+	 * @param obj
+	 *            the object to compare to
+	 * @return true if this object has an equal directory field as the other
+	 *         object
+	 */
+	public boolean equals(Object obj) {
+		if (obj == this) {
+			return true;
+		}
+
+		if (!(obj instanceof Directory)) {
+			return false;
+		}
+
+		Directory d = (Directory) obj;
+
+		return this.directory.equals(d.directory);
+	}
+
+	/**
+	 * The hashcode method.
+	 * 
+	 * @return the hash code of the directory field
+	 */
+	public int hashCode() {
+		return directory.hashCode();
+	}
+
+	/**
+	 * Get the path components of this directory.
+	 * 
+	 * @return the path components as an array of strings.
+	 */
+	public String[] getPath() {
+		return getPath(directory.getAbsolutePath());
+	}
+
+	/**
+	 * Convert a file path to an array of path components. This uses
+	 * File.sepatator to split the file path string.
+	 * 
+	 * @param thePath
+	 *            the file path string to convert
+	 * @return an array of path components
+	 */
+	public static String[] getPath(String thePath) {
+		StringTokenizer tokenizer = new StringTokenizer(thePath, File.separator);
+		String[] path = new String[tokenizer.countTokens()];
+
+		int i = 0;
+		while (tokenizer.hasMoreTokens()) {
+			path[i] = tokenizer.nextToken();
+			i++;
+		}
+
+		return path;
+	}
+
+	/**
+	 * Get the number of files in the files attribute.
+	 * 
+	 * @return the number of files
+	 */
+	public int fileSize() {
+		return files.size();
+	}
+
+	public String getRelativePath() {
+		if (this.parent == null) {
+			return this.directory.getName();
+		} else {
+			return RelativePath.getRelativePath(this.parent.getDirectory(),
+					this.directory);
+		}
+	}
+}

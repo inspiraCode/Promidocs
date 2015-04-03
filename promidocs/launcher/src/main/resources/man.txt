@@ -1,0 +1,29 @@
+* Parameters: 
+-source 
+	This is an alternative to the file attribute. But this must always point to a local file.
+-target  
+	This is an alternative to the file attribute. But this must always point to a remote file.
+-port  
+	The port to connect to on the remote host (default to 22).
+-trust  
+	This trusts all unknown hosts if set to yes/true (default to false). When false, the host you connect to must be listed in your knownhosts file, this also implies that the file exists.
+ -knownhosts 
+ 	This sets the known hosts file to use to validate the identity of the remote host. This must be a SSH2 format file. SSH1 format is not supported (default to ${user.home}/.ssh/known_hosts).
+ -password 
+ 	The password. Not if you are using key based authentication or the password has been given in the file or todir attribute.
+ -keyfile 
+ 	Location of the file holding the private key.
+ -passphrase 
+ 	Passphrase for your private key (default to an empty string).
+ -ask 
+ 	Ask to the use to digit the password.
+ -v 
+ 	Determines whether SCP outputs verbosely to the user. Currently this means outputting dots/stars showing the progress of a file transfer (default to false).
+ -sftp 
+ 	Determines whether SCP outputs verbosely to the user. Currently this means outputting dots/stars showing the progress of a file transfer (default to false).
+ -remove 
+ 	Determines whether the source file should be removed.
+ -tlogger 
+ 	class fully qualified name that will handle the transfer log.
+ -check 
+ 	log check is allowed for tlogger. If a file is found in tlogger to be transferred before, it will be avoided to be transferred again.
